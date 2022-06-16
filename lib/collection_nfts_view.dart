@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:solana/metaplex.dart' hide Image;
 import 'package:solana/solana.dart';
+import 'package:test_jupiter/colors.dart';
 import 'package:test_jupiter/constants.dart';
 import 'package:test_jupiter/nft.dart';
 import 'package:test_jupiter/solana_extension.dart';
@@ -14,11 +15,15 @@ class CollectionNFTsView extends StatefulWidget {
 }
 
 class _CollectionNFTsViewState extends State<CollectionNFTsView> {
+  late Size size;
   Map<String, Future<OffChainMetadata>> nfts = {};
 
   @override
   Widget build(BuildContext context) {
+    size = MediaQuery.of(context).size;
+
     return Scaffold(
+      appBar: AppBar(),
       body: ListView.builder(
         itemCount: nfts.length,
         itemBuilder: (context, index) => FutureBuilder<OffChainMetadata>(
@@ -27,7 +32,38 @@ class _CollectionNFTsViewState extends State<CollectionNFTsView> {
             if (snapshot.data == null) {
               return Container();
             } else {
-              return Image.network("${snapshot.data?.image}");
+              return Material(
+                elevation: 8,
+                color: index.isEven
+                    ? const Color(0xfffd6f49)
+                    : TJColors.primaryColor,
+                child: Row(
+                  children: [
+                    Container(
+                      height: size.width * 0.2,
+                      width: size.width * 0.2,
+                      padding: EdgeInsets.all(size.width * 0.01),
+                      margin: EdgeInsets.symmetric(
+                        horizontal: size.width * 0.05,
+                        vertical: size.width * 0.02,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.0),
+                        color: Colors.white.withOpacity(0.25),
+                      ),
+                      child: Image.network(
+                        "${snapshot.data?.image}",
+                      ),
+                    ),
+                    Text(
+                      snapshot.data!.name,
+                      style: Theme.of(context).textTheme.headline2!.copyWith(
+                            fontSize: 16,
+                          ),
+                    ),
+                  ],
+                ),
+              );
             }
           },
         ),

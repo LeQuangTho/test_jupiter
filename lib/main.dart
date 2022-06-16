@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jupiter_aggregator/jupiter_aggregator.dart';
 import 'package:test_jupiter/constants.dart';
 import 'package:test_jupiter/swap_token_view.dart';
+import 'package:test_jupiter/theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,15 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-          primarySwatch: Colors.blue,
-          textTheme: const TextTheme(
-            headline1: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w700,
-              fontSize: 14,
-            ),
-          )),
+      theme: toMaterialTheme(),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
